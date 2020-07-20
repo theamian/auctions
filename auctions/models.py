@@ -7,6 +7,9 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.cat}"
 
+    class Meta:
+        verbose_name_plural = "categories"
+
 class User(AbstractUser):
     pass
 
@@ -26,15 +29,24 @@ class Listings(models.Model):
             image url: {self.image}
             category: {self.category}"""
 
+    class Meta:
+        verbose_name_plural = "listings"
+
 class Bids(models.Model):
     amount = models.IntegerField(blank=False)
     bidder = models.CharField(max_length=64)
     listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="bid_listing")
+
+    class Meta:
+        verbose_name_plural = "bids"
 
 class Comments(models.Model):
     commenter = models.CharField(max_length=64)
     stamp = (models.DateTimeField(auto_now_add=True))
     text = models.TextField(blank=True)
     listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="listing")
+
+    class Meta:
+        verbose_name_plural = "comments"
 
 
