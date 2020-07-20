@@ -1,15 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class Category(models.Model):
-    cat = models.CharField(max_length=5)
-
-    def __str__(self):
-        return f"{self.cat}"
-
-    class Meta:
-        verbose_name_plural = "categories"
-
 class User(AbstractUser):
     pass
 
@@ -18,7 +9,7 @@ class Listings(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     image = models.URLField(blank=True)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="auctions")
+    category = models.CharField(max_length=5, blank=True)
     creator = models.CharField(max_length=64, blank=True)
 
     def __str__(self):
