@@ -1,0 +1,10 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    TODO
+    {% if user.is_authenticated %}
+    {{ user.get_username }}
+    {% endif %}
+{% endblock %}
