@@ -1,3 +1,19 @@
 body {
     padding: 10px;
+    box-sizing: border-box;
+}
+
+.active_card {
+    border: 1px solid black;
+    height: 15vh;
+}
+
+.active_card img {
+    height: 14.8vh;
+    margin-right: 10px;
+    float:left;
+}
+
+.active_card h4 {
+    margin: 10px auto;
 }
