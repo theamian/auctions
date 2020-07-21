@@ -4,14 +4,14 @@
     <h2>Active Listings</h2>
 
     {% for listing in listings %}
-
-        <div class="active_card">
-            <img src="{{ listing.image }}" alt="Image for {{ listing.title }}" />
-            <h4>{{ listing.title }}</h4>
-            <p>{{ listing.description }}</p>
-            <p>Latest bid: {{ listing.bid_listing.get.amount }}</p>
-        </div>
-
+        <a href="{% url 'listing' listing.id %}" class="card_link">
+            <div class="active_card">
+                <img src="{{ listing.image }}" alt="Image for {{ listing.title }}" />
+                <h4>{{ listing.title }}</h4>
+                <p>{{ listing.description }}</p>
+                <p>Latest bid: {{ listing.bid_listing.get.amount }}</p>
+            </div>
+        </a>
 
     {% empty %}
 

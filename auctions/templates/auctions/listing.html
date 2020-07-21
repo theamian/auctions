@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ listing.title }}
+{% endblock %} 
+
+{% block body %}
+    
+    {% if user.is_authenticated %}
+
+        {% if watchlist is none %}
+        <form action="{% url 'listing' listing.id %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-primary" name="watchlist" value="add">Add to Watchlist</button>
+        </form>
+        {% else %}
+            <form action="{% url 'listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-primary" name="watchlist" value="remove">Remove from Watchlist</button>
+            </form>
+        {% endif %}
+
+    {% endif %}
+
+{% endblock %}

@@ -78,3 +78,27 @@ def create(request):
         return HttpResponseRedirect(reverse("index"))
 
     return render(request, "auctions/create.html")
+
+
+def listing(request, id):
+    listing = Listings.objects.get(id=id)
+
+    try:
+        watchlist = listing.watched.get(user=request.user.username)
+    except:
+        watchlist = None
+
+    if request.method == "POST":
+        if request.POST["watchlist"] == "add":
+            add = Watchlist(user=request.user.username, lists=listing)
+            add.save()
+            watchlist = add
+
+        elif request.POST["watchlist"] == "remove":
+            watchlist.delete()
+            watchlist = None
+
+    return render(request, "auctions/listing.html", {
+        "listing": listing,
+        "watchlist": watchlist
+    })

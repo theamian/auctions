@@ -40,4 +40,9 @@ class Comments(models.Model):
     class Meta:
         verbose_name_plural = "comments"
 
+class Watchlist(models.Model):
+    user = models.CharField(max_length=64)
+    lists = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="watched")
 
+    class Meta:
+        verbose_name_plural = "watchlists"

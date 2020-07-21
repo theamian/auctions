@@ -7,6 +7,7 @@ body {
     border: 1px solid black;
     height: 15vh;
     border-radius: 5px;
+    color: black;
 }
 
 .active_card img {
@@ -18,4 +19,8 @@ body {
 
 .active_card, .active_card h4 {
     margin: 10px auto;
+}
+
+.card_link:hover, .card_link:active, .card_link:focus, .card_link:visited {
+    text-decoration: none;
 }
