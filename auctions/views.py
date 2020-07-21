@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -65,7 +66,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-
+@login_required(login_url="login")
 def create(request):
     if request.method == "POST":
         listing = Listings(active=True, title=request.POST["title"], description=request.POST["description"], image=request.POST["image_url"], 
