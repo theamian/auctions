@@ -6,14 +6,16 @@ body {
 .active_card {
     border: 1px solid black;
     height: 15vh;
+    border-radius: 5px;
 }
 
 .active_card img {
     height: 14.8vh;
     margin-right: 10px;
     float:left;
+    border-radius: inherit;
 }
 
-.active_card h4 {
+.active_card, .active_card h4 {
     margin: 10px auto;
 }
