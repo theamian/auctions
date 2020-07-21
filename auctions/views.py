@@ -8,8 +8,10 @@ from .models import *
 
 
 def index(request):
-    # active_listings = Listings.object
-    return render(request, "auctions/index.html")
+    active_listings = Listings.objects.filter(active=True)
+    return render(request, "auctions/index.html", {
+        "listings": active_listings,
+    })
 
 
 def login_view(request):
@@ -66,9 +68,12 @@ def register(request):
 
 def create(request):
     if request.method == "POST":
-        
+        listing = Listings(active=True, title=request.POST["title"], description=request.POST["description"], image=request.POST["image_url"], 
+                    category=request.POST["category"], creator=request.user.username)
+        listing.save()
 
-
+        bid = Bids(amount=request.POST["bid"], bidder=request.user.username, listing=listing)
+        bid.save()
         return HttpResponseRedirect(reverse("index"))
 
     return render(request, "auctions/create.html")

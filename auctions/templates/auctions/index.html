@@ -3,8 +3,15 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
-    {% if user.is_authenticated %}
-    {{ user.get_username }}
-    {% endif %}
+    {% for listing in listings %}
+        {{ listing.title }}
+        {{ listing.description }}
+        {{ listing.bid_listing.get.amount }}
+
+    {% empty %}
+
+        No active listings.
+
+    {% endfor%}    
+
 {% endblock %}
