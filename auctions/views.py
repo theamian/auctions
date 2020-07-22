@@ -82,6 +82,7 @@ def create(request):
 
 def listing(request, id):
     listing = Listings.objects.get(id=id)
+    message = None
 
     try:
         watchlist = listing.watched.get(user=request.user.username)
@@ -89,16 +90,40 @@ def listing(request, id):
         watchlist = None
 
     if request.method == "POST":
-        if request.POST["watchlist"] == "add":
-            add = Watchlist(user=request.user.username, lists=listing)
-            add.save()
-            watchlist = add
+        if "watchlist" in request.POST:
+            if request.POST["watchlist"] == "add":
+                add = Watchlist(user=request.user.username, lists=listing)
+                add.save()
+                watchlist = add
 
-        elif request.POST["watchlist"] == "remove":
-            watchlist.delete()
-            watchlist = None
+            elif request.POST["watchlist"] == "remove":
+                watchlist.delete()
+                watchlist = None
+        
+        if "bid" in request.POST:
+            bid = int(request.POST["bid"])
+            if bid <= listing.bid_listing.get().amount:
+                message = "Your bid needs to be larger than the previous one"
+            
+            else:
+                temp = listing.bid_listing.get()
+                temp.bidder = request.user.username
+                temp.amount = bid
+                temp.save()
+            
+        if "close" in request.POST:
+            listing.active = False
+            listing.save()
+    
+    if listing.active == False:
+        if listing.bid_listing.get().bidder == request.user.username:
+            message = "Congratulations on winning the auction!"
+        
+        else:
+            message = f"The auction was won by {listing.bid_listing.get().bidder}"
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "watchlist": watchlist
-    })
+        "watchlist": watchlist,
+        "message": message
+        })

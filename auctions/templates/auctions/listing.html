@@ -5,7 +5,11 @@
 {% endblock %} 
 
 {% block body %}
-    
+
+{% if message %}
+<div class="msg_div">{{ message }}</div>
+{% endif %}
+   
     {% if user.is_authenticated %}
 
         {% if watchlist is none %}
@@ -21,11 +25,28 @@
         {% endif %}
 
     {% endif %}
+
     <br>
     <img class="listing_img" src="{{ listing.image }}" />
     <h2>{{ listing.title}}</h2>
     <br>
     <p>{{ listing.description }}</p>
-    <p>Latest bid amout: {{ listing.bid_listing.get.amount }}</p>
+    <p>Latest bid amout: {{ listing.bid_listing.get.amount }} by: {{ listing.bid_listing.get.bidder }}</p>
+
+    {% if listing.active %}
+        {% if listing.creator != user.username %}
+            <form action="{% url 'listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="number" name="bid" placeholder="Enter your bid here" min="{{ listing.bid_listing.get.amount }}" required>
+                <input type="submit" class="btn btn-primary"  value="Bid">
+            </form>
+
+        {% else %}
+            <form action="{% url 'listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-primary" name="close" value="close">Close the auction</button>
+            </form>
+        {% endif %}
+    {% endif%}
 
 {% endblock %}
