@@ -31,9 +31,9 @@
     <h2>{{ listing.title}}</h2>
     <br>
     <p>{{ listing.description }}</p>
-    <p>Latest bid amout: {{ listing.bid_listing.get.amount }} by: {{ listing.bid_listing.get.bidder }}</p>
+    <p>Latest bid amount: {{ listing.bid_listing.get.amount }} by: {{ listing.bid_listing.get.bidder }}</p>
 
-    {% if listing.active %}
+    {% if listing.active %} 
         {% if listing.creator != user.username %}
             <form action="{% url 'listing' listing.id %}" method="POST">
                 {% csrf_token %}
@@ -47,6 +47,25 @@
                 <button class="btn btn-primary" name="close" value="close">Close the auction</button>
             </form>
         {% endif %}
-    {% endif%}
+        
+        <br>
+        <form action="{% url 'listing' listing.id %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea class="form-control" name="comment" placeholder="Add your comment" required></textarea>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    {% endif %}
+    
+    {% for comment in comments %}
+        <br>
+        <div class="comment">
+            <p>{{ comment.commenter }} at {{ comment.stamp }}:</p>
+            <i>- {{ comment.text }}</i>
+        </div>
+    {% empty %}
+        No comments to show
+    {% endfor %}
 
 {% endblock %}

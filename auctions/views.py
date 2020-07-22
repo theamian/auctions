@@ -88,7 +88,7 @@ def listing(request, id):
         watchlist = listing.watched.get(user=request.user.username)
     except:
         watchlist = None
-
+    
     if request.method == "POST":
         if "watchlist" in request.POST:
             if request.POST["watchlist"] == "add":
@@ -114,6 +114,15 @@ def listing(request, id):
         if "close" in request.POST:
             listing.active = False
             listing.save()
+        
+        if "comment" in request.POST:
+            temp = Comments(commenter=request.user.username, text=request.POST["comment"], listing=listing)
+            temp.save()
+    
+    try:
+        comments = listing.listing.all()
+    except:
+        comments = None
     
     if listing.active == False:
         if listing.bid_listing.get().bidder == request.user.username:
@@ -125,5 +134,6 @@ def listing(request, id):
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "watchlist": watchlist,
-        "message": message
+        "message": message,
+        "comments": comments
         })
