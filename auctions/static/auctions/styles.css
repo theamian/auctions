@@ -24,3 +24,10 @@ body {
 .card_link:hover, .card_link:active, .card_link:focus, .card_link:visited {
     text-decoration: none;
 }
+
+.listing_img {
+    float:left;
+    height: 20vh;
+    width: auto;
+    margin-right: 20px;
+}

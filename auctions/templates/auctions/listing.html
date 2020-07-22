@@ -21,5 +21,11 @@
         {% endif %}
 
     {% endif %}
+    <br>
+    <img class="listing_img" src="{{ listing.image }}" />
+    <h2>{{ listing.title}}</h2>
+    <br>
+    <p>{{ listing.description }}</p>
+    <p>Latest bid amout: {{ listing.bid_listing.get.amount }}</p>
 
 {% endblock %}
