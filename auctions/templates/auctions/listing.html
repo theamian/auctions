@@ -34,28 +34,30 @@
     <p>Latest bid amount: {{ listing.bid_listing.get.amount }} by: {{ listing.bid_listing.get.bidder }}</p>
 
     {% if listing.active %} 
-        {% if listing.creator != user.username %}
-            <form action="{% url 'listing' listing.id %}" method="POST">
-                {% csrf_token %}
-                <input type="number" name="bid" placeholder="Enter your bid here" min="{{ listing.bid_listing.get.amount }}" required>
-                <input type="submit" class="btn btn-primary"  value="Bid">
-            </form>
+        {% if user.is_authenticated %}
+            {% if listing.creator != user.username %}
+                <form action="{% url 'listing' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="number" name="bid" placeholder="Enter your bid here" min="{{ listing.bid_listing.get.amount }}" required>
+                    <input type="submit" class="btn btn-primary"  value="Bid">
+                </form>
 
-        {% else %}
+            {% else %}
+                <form action="{% url 'listing' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" name="close" value="close">Close the auction</button>
+                </form>
+            {% endif %}
+            
+            <br>
             <form action="{% url 'listing' listing.id %}" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-primary" name="close" value="close">Close the auction</button>
+                <div class="form-group">
+                    <textarea class="form-control" name="comment" placeholder="Add your comment" required></textarea>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Submit">
             </form>
         {% endif %}
-        
-        <br>
-        <form action="{% url 'listing' listing.id %}" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <textarea class="form-control" name="comment" placeholder="Add your comment" required></textarea>
-            </div>
-            <input class="btn btn-primary" type="submit" value="Submit">
-        </form>
     {% endif %}
     
     {% for comment in comments %}
