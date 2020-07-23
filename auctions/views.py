@@ -137,3 +137,9 @@ def listing(request, id):
         "message": message,
         "comments": comments
         })
+
+def watchlist(request):
+    watchlist = Watchlist.objects.filter(user=request.user.username)
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": watchlist
+    })
